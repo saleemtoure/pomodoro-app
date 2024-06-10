@@ -130,6 +130,8 @@ public class View {
         oversiktFullfoert.setForeground(buttonDark);
         oversiktMaal.setForeground(buttonDark);
 
+        modus.setText("Bytt til moerk modus");
+
         isLight = true;
     }
 
@@ -139,6 +141,8 @@ public class View {
             knapp.setBackground(buttonDark);
             knapp.setForeground(buttonLight);
         }
+
+        modus.setText("Bytt til lys modus");
 
         oversiktFullfoert.setForeground(buttonLight);
         oversiktMaal.setForeground(buttonLight);
