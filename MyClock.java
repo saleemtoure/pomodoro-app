@@ -2,8 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-//!NESTE STEG BLIR Å SKILLE UT TIL MVC
-
 class MyClock implements ActionListener {
 
     JFrame frame = new JFrame();
@@ -39,24 +37,24 @@ class MyClock implements ActionListener {
     MyClock() {
 
         timeLabel.setText(hoursString + ":" + minutesString + ":" + secondsString);
-        timeLabel.setBounds(100, 100, 200, 100);
+        timeLabel.setBounds(50, 0, 200, 50);
         timeLabel.setFont(new Font("Verdana", Font.PLAIN, 35));
         timeLabel.setBorder(BorderFactory.createBevelBorder(1));
         timeLabel.setOpaque(true);
         timeLabel.setHorizontalAlignment(JTextField.CENTER);
 
-        startButton.setBounds(100, 200, 100, 50);
-        startButton.setFont(new Font("Verdana", Font.PLAIN, 20));
+        startButton.setBounds(50, 50, 100, 30);
+        startButton.setFont(new Font("Verdana", Font.PLAIN, 15));
         startButton.setFocusable(false);
         startButton.addActionListener(this);
 
-        resetButton.setBounds(200, 200, 100, 50);
-        resetButton.setFont(new Font("Verdana", Font.PLAIN, 20));
+        resetButton.setBounds(150, 50, 100, 30);
+        resetButton.setFont(new Font("Verdana", Font.PLAIN, 15));
         resetButton.setFocusable(false);
         resetButton.addActionListener(this);
 
         clockPanel.setLayout(null);
-        clockPanel.setPreferredSize(new Dimension(420, 420));
+        clockPanel.setPreferredSize(new Dimension(300, 80));
         clockPanel.add(timeLabel);
         clockPanel.add(startButton);
         clockPanel.add(resetButton);
