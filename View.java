@@ -5,11 +5,12 @@ import javax.swing.*;
 public class View {
 
     JFrame vindu;
-    JPanel hovedPanel, toppPanel, tekstPanel, tittelPanel, oversiktPanel, knappPanel, mediaPanel;
+    JPanel hovedPanel, toppPanel, tekstPanel, tittelPanel, oversiktPanel, mediaPanel;
     JLabel oversiktMaal, oversiktFullfoert;
-    JButton modus, tid, pauseTid, avspilling, pauseAvspilling;
+    JButton modus, startKnapp, nullstillKnapp, avspilling, pauseAvspilling;
     JButton[] knappeListe;
     Color mainDark, buttonDark, mainLight, buttonLight;
+    Klokke klokke;
 
     int fullfortMin, maalMin, fullfortOekt, maalOekt;
     Boolean isLight;
@@ -21,12 +22,13 @@ public class View {
         tekstPanel = new JPanel();
         tittelPanel = new JPanel();
         oversiktPanel = new JPanel();
-        knappPanel = new JPanel();
         mediaPanel = new JPanel();
 
+        klokke = new Klokke();
+
         modus = new JButton("Bytt til lys modus");
-        tid = new JButton("Her skal tiden staa");
-        pauseTid = new JButton("Pauseknapp");
+        startKnapp = klokke.startButton;
+        nullstillKnapp = klokke.resetButton;
         avspilling = new JButton("Pause avspilling");
         pauseAvspilling = new JButton("Fortsett avspilling");
 
@@ -35,7 +37,7 @@ public class View {
         mainLight = new Color(250, 250, 250);
         buttonLight = new Color(204, 204, 204);
 
-        knappeListe = new JButton[] { modus, tid, pauseTid, avspilling, pauseAvspilling };
+        knappeListe = new JButton[] { modus, startKnapp, nullstillKnapp, avspilling, pauseAvspilling };
 
         oversiktMaal = new JLabel("Fullfoert: " + fullfortMin + " av " + maalMin + " minutter");
         oversiktFullfoert = new JLabel("Naa paa oekt " + fullfortOekt + " av " + maalOekt);
@@ -50,6 +52,7 @@ public class View {
 
     public static void main(String[] args) {
         View view = new View();
+
         view.tegnGUI();
     }
 
@@ -90,21 +93,17 @@ public class View {
         tekstPanel.setOpaque(false);
         tittelPanel.setOpaque(false);
         oversiktPanel.setOpaque(false);
-        knappPanel.setOpaque(false);
         mediaPanel.setOpaque(false);
 
         tittelPanel.add(oversiktMaal);
 
         oversiktPanel.add(oversiktFullfoert);
 
-        knappPanel.add(tid);
-        knappPanel.add(pauseTid);
-
         mediaPanel.add(avspilling);
         mediaPanel.add(pauseAvspilling);
 
         hovedPanel.add(tekstPanel, BorderLayout.NORTH);
-        hovedPanel.add(knappPanel, BorderLayout.CENTER);
+        hovedPanel.add(klokke.getPanel(), BorderLayout.CENTER);
         hovedPanel.add(mediaPanel, BorderLayout.SOUTH);
 
         vindu.pack();
