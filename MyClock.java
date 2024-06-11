@@ -2,10 +2,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-class Klokke implements ActionListener {
+//!NESTE STEG BLIR Å SKILLE UT TIL MVC
+
+class MyClock implements ActionListener {
 
     JFrame frame = new JFrame();
-    JPanel klokkePanel = new JPanel();
+    JPanel clockPanel = new JPanel();
     JButton startButton = new JButton("Start");
     JButton resetButton = new JButton("Reset");
     JLabel timeLabel = new JLabel();
@@ -34,7 +36,7 @@ class Klokke implements ActionListener {
         }
     });
 
-    Klokke() {
+    MyClock() {
 
         timeLabel.setText(hoursString + ":" + minutesString + ":" + secondsString);
         timeLabel.setBounds(100, 100, 200, 100);
@@ -53,15 +55,15 @@ class Klokke implements ActionListener {
         resetButton.setFocusable(false);
         resetButton.addActionListener(this);
 
-        klokkePanel.setLayout(null);
-        klokkePanel.setPreferredSize(new Dimension(420, 420));
-        klokkePanel.add(timeLabel);
-        klokkePanel.add(startButton);
-        klokkePanel.add(resetButton);
+        clockPanel.setLayout(null);
+        clockPanel.setPreferredSize(new Dimension(420, 420));
+        clockPanel.add(timeLabel);
+        clockPanel.add(startButton);
+        clockPanel.add(resetButton);
     }
 
     JPanel getPanel() {
-        return klokkePanel;
+        return clockPanel;
     }
 
     void start() {

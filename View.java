@@ -4,43 +4,43 @@ import javax.swing.*;
 
 public class View {
 
-    JFrame vindu;
-    JPanel hovedPanel, toppPanel, tekstPanel, tittelPanel, oversiktPanel, mediaPanel;
-    JLabel oversiktMaal, oversiktFullfoert;
-    JButton modus, startKnapp, nullstillKnapp, avspilling, pauseAvspilling;
-    JButton[] knappeListe;
+    JFrame frame;
+    JPanel mainPanel, upperPanel, textPanel, titlePanel, overviewPanel, mediaPanel;
+    JLabel overviewGoal, overviewCompleted;
+    JButton mode, startButton, resetButton, playMediaButton, pauseMediaButton;
+    JButton[] buttonList;
     Color mainDark, buttonDark, mainLight, buttonLight;
-    Klokke klokke;
+    MyClock clock;
 
     int fullfortMin, maalMin, fullfortOekt, maalOekt;
     Boolean isLight;
 
     View() {
-        vindu = new JFrame("Pomodoro");
-        hovedPanel = new JPanel();
-        toppPanel = new JPanel();
-        tekstPanel = new JPanel();
-        tittelPanel = new JPanel();
-        oversiktPanel = new JPanel();
+        frame = new JFrame("Pomodoro");
+        mainPanel = new JPanel();
+        upperPanel = new JPanel();
+        textPanel = new JPanel();
+        titlePanel = new JPanel();
+        overviewPanel = new JPanel();
         mediaPanel = new JPanel();
 
-        klokke = new Klokke();
+        clock = new MyClock();
 
-        modus = new JButton("Bytt til lys modus");
-        startKnapp = klokke.startButton;
-        nullstillKnapp = klokke.resetButton;
-        avspilling = new JButton("Pause avspilling");
-        pauseAvspilling = new JButton("Fortsett avspilling");
+        mode = new JButton("Bytt til lys mode");
+        startButton = clock.startButton;
+        resetButton = clock.resetButton;
+        playMediaButton = new JButton("Pause playMediaButton");
+        pauseMediaButton = new JButton("Fortsett playMediaButton");
 
         mainDark = new Color(30, 30, 30);
         buttonDark = new Color(55, 55, 61);
         mainLight = new Color(250, 250, 250);
         buttonLight = new Color(204, 204, 204);
 
-        knappeListe = new JButton[] { modus, startKnapp, nullstillKnapp, avspilling, pauseAvspilling };
+        buttonList = new JButton[] { mode, startButton, resetButton, playMediaButton, pauseMediaButton };
 
-        oversiktMaal = new JLabel("Fullfoert: " + fullfortMin + " av " + maalMin + " minutter");
-        oversiktFullfoert = new JLabel("Naa paa oekt " + fullfortOekt + " av " + maalOekt);
+        overviewGoal = new JLabel("Fullfoert: " + fullfortMin + " av " + maalMin + " minutter");
+        overviewCompleted = new JLabel("Naa paa oekt " + fullfortOekt + " av " + maalOekt);
         fullfortOekt = 0;
         maalOekt = 0;
 
@@ -62,15 +62,15 @@ public class View {
         } catch (Exception e) {
             System.exit(1);
         }
-        vindu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        hovedPanel.setLayout(new BorderLayout());
-        vindu.getContentPane().add(hovedPanel);
+        mainPanel.setLayout(new BorderLayout());
+        frame.getContentPane().add(mainPanel);
         lysModus();
 
         // * Dark and Lightmode */
 
-        toppPanel.add(modus);
+        upperPanel.add(mode);
 
         class ByttModus implements ActionListener {
 
@@ -80,35 +80,35 @@ public class View {
             }
 
         }
-        modus.addActionListener(new ByttModus());
+        mode.addActionListener(new ByttModus());
 
         // * */
 
-        tekstPanel.setLayout(new BorderLayout());
-        tekstPanel.add(toppPanel, BorderLayout.NORTH);
-        tekstPanel.add(tittelPanel, BorderLayout.CENTER);
-        tekstPanel.add(oversiktPanel, BorderLayout.SOUTH);
+        textPanel.setLayout(new BorderLayout());
+        textPanel.add(upperPanel, BorderLayout.NORTH);
+        textPanel.add(titlePanel, BorderLayout.CENTER);
+        textPanel.add(overviewPanel, BorderLayout.SOUTH);
 
-        toppPanel.setOpaque(false);
-        tekstPanel.setOpaque(false);
-        tittelPanel.setOpaque(false);
-        oversiktPanel.setOpaque(false);
+        upperPanel.setOpaque(false);
+        textPanel.setOpaque(false);
+        titlePanel.setOpaque(false);
+        overviewPanel.setOpaque(false);
         mediaPanel.setOpaque(false);
 
-        tittelPanel.add(oversiktMaal);
+        titlePanel.add(overviewGoal);
 
-        oversiktPanel.add(oversiktFullfoert);
+        overviewPanel.add(overviewCompleted);
 
-        mediaPanel.add(avspilling);
-        mediaPanel.add(pauseAvspilling);
+        mediaPanel.add(playMediaButton);
+        mediaPanel.add(pauseMediaButton);
 
-        hovedPanel.add(tekstPanel, BorderLayout.NORTH);
-        hovedPanel.add(klokke.getPanel(), BorderLayout.CENTER);
-        hovedPanel.add(mediaPanel, BorderLayout.SOUTH);
+        mainPanel.add(textPanel, BorderLayout.NORTH);
+        mainPanel.add(clock.getPanel(), BorderLayout.CENTER);
+        mainPanel.add(mediaPanel, BorderLayout.SOUTH);
 
-        vindu.pack();
-        vindu.setLocationRelativeTo(null);
-        vindu.setVisible(true);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     void byttModus() {
@@ -120,31 +120,31 @@ public class View {
     }
 
     void lysModus() {
-        hovedPanel.setBackground(mainLight);
-        for (JButton knapp : knappeListe) {
+        mainPanel.setBackground(mainLight);
+        for (JButton knapp : buttonList) {
             knapp.setBackground(buttonLight);
             knapp.setForeground(buttonDark);
         }
 
-        oversiktFullfoert.setForeground(buttonDark);
-        oversiktMaal.setForeground(buttonDark);
+        overviewCompleted.setForeground(buttonDark);
+        overviewGoal.setForeground(buttonDark);
 
-        modus.setText("Bytt til moerk modus");
+        mode.setText("Bytt til moerk mode");
 
         isLight = true;
     }
 
     void moerkModus() {
-        hovedPanel.setBackground(mainDark);
-        for (JButton knapp : knappeListe) {
+        mainPanel.setBackground(mainDark);
+        for (JButton knapp : buttonList) {
             knapp.setBackground(buttonDark);
             knapp.setForeground(buttonLight);
         }
 
-        modus.setText("Bytt til lys modus");
+        mode.setText("Bytt til lys mode");
 
-        oversiktFullfoert.setForeground(buttonLight);
-        oversiktMaal.setForeground(buttonLight);
+        overviewCompleted.setForeground(buttonLight);
+        overviewGoal.setForeground(buttonLight);
 
         isLight = false;
     }
