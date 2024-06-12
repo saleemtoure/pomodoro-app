@@ -2,14 +2,22 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-class MyClock implements ActionListener {
+class MediaPlayer implements ActionListener {
 
     JFrame frame = new JFrame();
-    JPanel clockPanel = new JPanel();
-    JButton startButton = new JButton("Start");
-    JButton resetButton = new JButton("Reset");
+    JPanel mediaPanel = new JPanel();
+    // String startIcon = "\u25B6";
+    // String pauseIcon = "\u23F8";
+    // String resetIcon = "\21BA";
+    String startIcon = "Start";
+    String pauseIcon = "Pause";
+    String resetIcon = "Restart";
+
+    JButton playMediaButton = new JButton(startIcon);
+    JButton resetMediaButton = new JButton(resetIcon);
+    JButton[] allButtons = new JButton[] { playMediaButton, resetMediaButton };
+
     JLabel timeLabel = new JLabel();
-    JButton[] allButtons = new JButton[] { startButton, resetButton };
     int elapsedTime = 0;
     int secondsPassed = 0;
     int minutesPassed = 0;
@@ -35,7 +43,7 @@ class MyClock implements ActionListener {
         }
     });
 
-    MyClock() {
+    MediaPlayer() {
 
         timeLabel.setText(hoursString + ":" + minutesString + ":" + secondsString);
         timeLabel.setBounds(50, 0, 200, 50);
@@ -44,32 +52,32 @@ class MyClock implements ActionListener {
         timeLabel.setOpaque(true);
         timeLabel.setHorizontalAlignment(JTextField.CENTER);
 
-        startButton.setBounds(50, 50, 100, 30);
-        startButton.setFont(new Font("Verdana", Font.PLAIN, 15));
-        startButton.setFocusable(false);
-        startButton.addActionListener(this);
+        playMediaButton.setBounds(50, 50, 100, 30);
+        playMediaButton.setFont(new Font("Verdana", Font.PLAIN, 15));
+        playMediaButton.setFocusable(false);
+        playMediaButton.addActionListener(this);
 
-        resetButton.setBounds(150, 50, 100, 30);
-        resetButton.setFont(new Font("Verdana", Font.PLAIN, 15));
-        resetButton.setFocusable(false);
-        resetButton.addActionListener(this);
+        resetMediaButton.setBounds(150, 50, 100, 30);
+        resetMediaButton.setFont(new Font("Verdana", Font.PLAIN, 15));
+        resetMediaButton.setFocusable(false);
+        resetMediaButton.addActionListener(this);
 
-        clockPanel.setLayout(null);
-        clockPanel.setPreferredSize(new Dimension(300, 80));
-        clockPanel.add(timeLabel);
-        clockPanel.add(startButton);
-        clockPanel.add(resetButton);
+        mediaPanel.setLayout(null);
+        mediaPanel.setPreferredSize(new Dimension(300, 80));
+        mediaPanel.add(timeLabel);
+        mediaPanel.add(playMediaButton);
+        mediaPanel.add(resetMediaButton);
     }
 
     JPanel getPanel() {
-        return clockPanel;
+        return mediaPanel;
     }
 
     void start() {
         timer.start();
     }
 
-    void stop() {
+    void pause() {
         timer.stop();
     }
 
@@ -85,20 +93,20 @@ class MyClock implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == startButton) {
+        if (e.getSource() == playMediaButton) {
             if (!started) {
                 started = true;
-                startButton.setText("Stop");
+                playMediaButton.setText(pauseIcon);
                 start();
             } else {
                 started = false;
-                startButton.setText("Start");
-                stop();
+                playMediaButton.setText(startIcon);
+                pause();
             }
         }
-        if (e.getSource() == resetButton) {
+        if (e.getSource() == resetMediaButton) {
             started = false;
-            startButton.setText("Start");
+            playMediaButton.setText(startIcon);
             reset();
         }
     }

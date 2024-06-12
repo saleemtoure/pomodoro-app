@@ -9,13 +9,16 @@ public class View {
     // (IDE: I PAUSER SÅ ÅPNES EN RNADOM VIDEP)
     // EGEN KLASSE
 
+    // !PUT KNAPPENE I LISTER I SIN EGEN KLASSE SÅ DET BLIR LETTERE Å HENTE DI
+
     JFrame frame;
-    JPanel mainPanel, upperPanel, textPanel, titlePanel, overviewPanel, mediaPanel;
-    JLabel overviewGoal, overviewCompleted, nowPlaying;
-    JButton mode, startButton, resetButton, playMediaButton, pauseMediaButton;
+    JPanel mainPanel, upperPanel, textPanel, titlePanel, overviewPanel;
+    JLabel overviewGoal, overviewCompleted;
+    JButton mode, startButton, resetButton, playMediaButton, restartMediaButton;
     JButton[] buttonList;
     Color primaryDark, secondaryDark, primaryLight, secondaryLight;
     MyClock clock;
+    MediaPlayer mediaPlayer;
 
     int completedMinutes, goalMinutes, completedSessions, goalSession;
     Boolean isLight;
@@ -27,25 +30,25 @@ public class View {
         textPanel = new JPanel();
         titlePanel = new JPanel();
         overviewPanel = new JPanel();
-        mediaPanel = new JPanel();
 
         clock = new MyClock();
+        mediaPlayer = new MediaPlayer();
 
         mode = new JButton();
         mode.setFocusable(false);
+
         startButton = clock.startButton;
         resetButton = clock.resetButton;
-        playMediaButton = new JButton("\u23F5");
+
+        playMediaButton = mediaPlayer.playMediaButton;
         playMediaButton.setFocusable(false);
-        pauseMediaButton = new JButton("\u23F8");
-        pauseMediaButton.setFocusable(false);
 
         primaryDark = new Color(30, 30, 30);
         secondaryDark = new Color(55, 55, 61);
         primaryLight = new Color(250, 250, 250);
         secondaryLight = new Color(204, 204, 204);
 
-        buttonList = new JButton[] { mode, startButton, resetButton, playMediaButton, pauseMediaButton };
+        buttonList = new JButton[] { mode, startButton, resetButton, playMediaButton };
 
         overviewGoal = new JLabel("Fullfoert: " + completedMinutes + " av " + goalMinutes + " minutter");
         overviewCompleted = new JLabel("Naa paa oekt " + completedSessions + " av " + goalSession);
@@ -57,7 +60,6 @@ public class View {
 
         isLight = false;
 
-        nowPlaying = new JLabel("Naa spilles: ");
     }
 
     public static void main(String[] args) {
@@ -103,19 +105,14 @@ public class View {
         textPanel.setOpaque(false);
         titlePanel.setOpaque(false);
         overviewPanel.setOpaque(false);
-        mediaPanel.setOpaque(false);
 
         titlePanel.add(overviewGoal);
 
         overviewPanel.add(overviewCompleted);
 
-        mediaPanel.add(nowPlaying);
-        mediaPanel.add(playMediaButton);
-        mediaPanel.add(pauseMediaButton);
-
         mainPanel.add(textPanel, BorderLayout.NORTH);
         mainPanel.add(clock.getPanel(), BorderLayout.CENTER);
-        mainPanel.add(mediaPanel, BorderLayout.SOUTH);
+        mainPanel.add(mediaPlayer.getPanel(), BorderLayout.SOUTH);
 
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -143,7 +140,6 @@ public class View {
 
         overviewCompleted.setForeground(secondaryDark);
         overviewGoal.setForeground(secondaryDark);
-        nowPlaying.setForeground(primaryDark);
 
         mode.setText("\u263E");
 
@@ -165,7 +161,6 @@ public class View {
 
         overviewCompleted.setForeground(secondaryLight);
         overviewGoal.setForeground(secondaryLight);
-        nowPlaying.setForeground(primaryLight);
 
         isLight = false;
     }
