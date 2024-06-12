@@ -5,66 +5,64 @@ import javax.swing.*;
 public class View {
     // !NESTE STEG BLIR Å SKILLE UT LOGIKK TIL MVC OG RYDDE OPP I LINJER OG
     // INITALIZATIONS
+
+    // !STEG BLIR Å GJØRE STOPPEKLOKKE TIL COUNTDOWN OG GJØR DET MULIG Å SKRIVE INN
+    // TID DIREKTE I KLOKKA
     // ! FIX LAYOUT ISSUES MED NAA SPILLES DELEN, EVT GJØR MEDIASPILLEREN TIL SIN
     // (IDE: I PAUSER SÅ ÅPNES EN RNADOM VIDEP)
     // EGEN KLASSE
+    MyClock clock = new MyClock();
 
-    // !PUT KNAPPENE I LISTER I SIN EGEN KLASSE SÅ DET BLIR LETTERE Å HENTE DI
+    JFrame frame = new JFrame("Pomodoro");
 
-    JFrame frame;
-    JPanel mainPanel, upperPanel, textPanel, titlePanel, overviewPanel;
-    JLabel overviewGoal, overviewCompleted;
-    JButton mode, startButton, resetButton, playMediaButton, restartMediaButton;
+    JPanel mainPanel = new JPanel(), upperPanel = new JPanel(), textPanel = new JPanel(), titlePanel = new JPanel(), overviewPanel = new JPanel(),
+            spinnerPanel = new JPanel();
+
+    JLabel overviewCompleted;
+    JButton colorSchemeButton = new JButton("\u263E");
+    JTextField textField = new JTextField();
+    SpinnerModel model = new SpinnerNumberModel(20, 20, null, 5);
+    JSpinner spinner = new JSpinner(model);
+
     JButton[] buttonList;
-    Color primaryDark, secondaryDark, primaryLight, secondaryLight;
-    MyClock clock;
-    MyMediaPlayer mediaPlayer;
+    Color primaryDark = new Color(30, 30, 30);
+    Color secondaryDark = new Color(55, 55, 61);
+    Color primaryLight = new Color(250, 250, 250);
+    Color secondaryLight = new Color(204, 204, 204);
 
-    int completedMinutes, goalMinutes, completedSessions, goalSession;
-    Boolean isLight;
+    int completedMinutes = 0, goalMinutes = 0, completedSessions = 0, goalSession = 0;
+    Boolean isLight = false;
 
     View() {
-        frame = new JFrame("Pomodoro");
-        mainPanel = new JPanel();
-        upperPanel = new JPanel();
-        textPanel = new JPanel();
-        titlePanel = new JPanel();
-        overviewPanel = new JPanel();
 
-        clock = new MyClock();
-        mediaPlayer = new MyMediaPlayer();
+        frame.setPreferredSize(new Dimension(250, 250));
+        frame.setResizable(false);
 
-        mode = new JButton();
-        mode.setFocusable(false);
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        startButton = clock.startButton;
-        resetButton = clock.resetButton;
+        colorSchemeButton.setFont(new Font("DejaVu", Font.PLAIN, 15));
+        colorSchemeButton.setFocusable(false);
 
-        playMediaButton = mediaPlayer.playMediaButton;
-        playMediaButton.setFocusable(false);
+        int buttonAmount = clock.allButtons.length;
 
-        primaryDark = new Color(30, 30, 30);
-        secondaryDark = new Color(55, 55, 61);
-        primaryLight = new Color(250, 250, 250);
-        secondaryLight = new Color(204, 204, 204);
+        buttonList = new JButton[buttonAmount];
 
-        buttonList = new JButton[] { mode, startButton, resetButton, playMediaButton };
+        spinner.setFont(new Font("DejaVu", Font.PLAIN, 15));
+        spinner.setMaximumSize(new Dimension(50, 50));
 
-        overviewGoal = new JLabel("Fullfoert: " + completedMinutes + " av " + goalMinutes + " minutter");
+        // 1. Get the editor component of your spinner:
+
+        int i = 0;
+        for (JButton btn : clock.allButtons) {
+            buttonList[i] = btn;
+            i++;
+        }
+
         overviewCompleted = new JLabel("Naa paa oekt " + completedSessions + " av " + goalSession);
-        completedSessions = 0;
-        goalSession = 0;
-
-        completedMinutes = 0;
-        goalMinutes = 0;
-
-        isLight = false;
-
     }
 
     public static void main(String[] args) {
         View view = new View();
-
         view.drawGUI();
     }
 
@@ -76,13 +74,12 @@ public class View {
         }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        mainPanel.setLayout(new BorderLayout());
         frame.getContentPane().add(mainPanel);
         lightMode();
 
         // * Dark and Lightmode */
 
-        upperPanel.add(mode);
+        upperPanel.add(colorSchemeButton);
 
         class switchColorScheme implements ActionListener {
 
@@ -92,7 +89,7 @@ public class View {
             }
 
         }
-        mode.addActionListener(new switchColorScheme());
+        colorSchemeButton.addActionListener(new switchColorScheme());
 
         // * */
 
@@ -106,13 +103,17 @@ public class View {
         titlePanel.setOpaque(false);
         overviewPanel.setOpaque(false);
 
-        titlePanel.add(overviewGoal);
-
         overviewPanel.add(overviewCompleted);
 
-        mainPanel.add(textPanel, BorderLayout.NORTH);
-        mainPanel.add(clock.getPanel(), BorderLayout.CENTER);
-        mainPanel.add(mediaPlayer.getPanel(), BorderLayout.SOUTH);
+        JLabel spinnerText = new JLabel("Skriv inn antall minutter");
+        spinnerPanel.add(spinner);
+        spinnerPanel.add(spinnerText);
+
+        JPanel clockPanel = clock.getPanel();
+
+        mainPanel.add(textPanel);
+        mainPanel.add(spinnerPanel);
+        mainPanel.add(clockPanel);
 
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -129,9 +130,10 @@ public class View {
 
     void lightMode() {
         mainPanel.setBackground(primaryLight);
-        for (JButton knapp : buttonList) {
-            knapp.setBackground(secondaryLight);
-            knapp.setForeground(secondaryDark);
+
+        for (JButton btn : buttonList) {
+            btn.setBackground(secondaryLight);
+            btn.setForeground(secondaryDark);
         }
 
         clock.clockPanel.setBackground(primaryLight);
@@ -139,28 +141,30 @@ public class View {
         clock.timeLabel.setForeground(secondaryDark);
 
         overviewCompleted.setForeground(secondaryDark);
-        overviewGoal.setForeground(secondaryDark);
 
-        mode.setText("\u263E");
+        colorSchemeButton.setText("\u263E");
+        colorSchemeButton.setBackground(secondaryLight);
+        colorSchemeButton.setForeground(secondaryDark);
 
         isLight = true;
     }
 
     void darkMode() {
         mainPanel.setBackground(primaryDark);
-        for (JButton knapp : buttonList) {
-            knapp.setBackground(secondaryDark);
-            knapp.setForeground(secondaryLight);
+        for (JButton btn : buttonList) {
+            btn.setBackground(secondaryDark);
+            btn.setForeground(secondaryLight);
         }
 
-        mode.setText("\u263C");
+        colorSchemeButton.setText("\u263C");
+        colorSchemeButton.setBackground(secondaryDark);
+        colorSchemeButton.setForeground(secondaryLight);
 
         clock.clockPanel.setBackground(primaryDark);
         clock.timeLabel.setBackground(primaryDark);
         clock.timeLabel.setForeground(secondaryLight);
 
         overviewCompleted.setForeground(secondaryLight);
-        overviewGoal.setForeground(secondaryLight);
 
         isLight = false;
     }

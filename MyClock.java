@@ -39,18 +39,18 @@ class MyClock implements ActionListener {
 
         timeLabel.setText(hoursString + ":" + minutesString + ":" + secondsString);
         timeLabel.setBounds(50, 0, 200, 50);
-        timeLabel.setFont(new Font("Verdana", Font.PLAIN, 35));
+        timeLabel.setFont(new Font("DejaVu", Font.PLAIN, 35));
         timeLabel.setBorder(BorderFactory.createBevelBorder(1));
         timeLabel.setOpaque(true);
         timeLabel.setHorizontalAlignment(JTextField.CENTER);
 
         startButton.setBounds(50, 50, 100, 30);
-        startButton.setFont(new Font("Verdana", Font.PLAIN, 15));
+        startButton.setFont(new Font("DejaVu", Font.PLAIN, 15));
         startButton.setFocusable(false);
         startButton.addActionListener(this);
 
         resetButton.setBounds(150, 50, 100, 30);
-        resetButton.setFont(new Font("Verdana", Font.PLAIN, 15));
+        resetButton.setFont(new Font("DejaVu", Font.PLAIN, 15));
         resetButton.setFocusable(false);
         resetButton.addActionListener(this);
 
