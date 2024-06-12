@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-class MediaPlayer implements ActionListener {
+class MyMediaPlayer implements ActionListener {
 
     JFrame frame = new JFrame();
     JPanel mediaPanel = new JPanel();
@@ -43,7 +43,7 @@ class MediaPlayer implements ActionListener {
         }
     });
 
-    MediaPlayer() {
+    MyMediaPlayer() {
 
         timeLabel.setText(hoursString + ":" + minutesString + ":" + secondsString);
         timeLabel.setBounds(50, 0, 200, 50);

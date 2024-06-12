@@ -18,7 +18,7 @@ public class View {
     JButton[] buttonList;
     Color primaryDark, secondaryDark, primaryLight, secondaryLight;
     MyClock clock;
-    MediaPlayer mediaPlayer;
+    MyMediaPlayer mediaPlayer;
 
     int completedMinutes, goalMinutes, completedSessions, goalSession;
     Boolean isLight;
@@ -32,7 +32,7 @@ public class View {
         overviewPanel = new JPanel();
 
         clock = new MyClock();
-        mediaPlayer = new MediaPlayer();
+        mediaPlayer = new MyMediaPlayer();
 
         mode = new JButton();
         mode.setFocusable(false);
