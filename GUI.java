@@ -3,7 +3,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-public class View {
+public class GUI {
     // !NESTE STEG BLIR Å SKILLE UT LOGIKK TIL MVC OG RYDDE OPP I LINJER OG
     // INITALIZATIONS
 
@@ -24,7 +24,7 @@ public class View {
 
     Boolean isLight = false;
 
-    View() {
+    GUI() {
 
         frame.setPreferredSize(new Dimension(250, 250));
         frame.setResizable(false);
@@ -47,7 +47,7 @@ public class View {
     }
 
     public static void main(String[] args) {
-        View view = new View();
+        GUI view = new GUI();
         view.drawGUI();
     }
 
@@ -109,6 +109,7 @@ public class View {
         clock.clockPanel.setBackground(primaryLight);
         clock.timeLabel.setBackground(primaryLight);
         clock.timeLabel.setForeground(secondaryDark);
+        clock.timeLabel.setBorder(BorderFactory.createLineBorder(primaryDark));
 
         colorSchemeButton.setText("\u263E");
         colorSchemeButton.setBackground(secondaryLight);
@@ -131,6 +132,7 @@ public class View {
         clock.clockPanel.setBackground(primaryDark);
         clock.timeLabel.setBackground(primaryDark);
         clock.timeLabel.setForeground(secondaryLight);
+        clock.timeLabel.setBorder(BorderFactory.createLineBorder(primaryLight));
 
         isLight = false;
     }

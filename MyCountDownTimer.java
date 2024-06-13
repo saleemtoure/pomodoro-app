@@ -6,7 +6,6 @@ import javax.swing.*;
 
 class MyCountDownTimer implements ActionListener {
 
-    JFrame frame = new JFrame();
     JPanel clockPanel = new JPanel();
     JButton continueButton = new JButton("Start");
     JLabel timeLabel = new JLabel();
@@ -69,7 +68,7 @@ class MyCountDownTimer implements ActionListener {
 
     void addClock(int value) {
 
-        int tL_LeftTopX = 25; // Main window width = 250. jeg vil ha (250/2)-tl_width/2 //!NOE ER FEIL HER
+        int tL_LeftTopX = 20;
         int tl_width = 200;
         int tl_height = 50;
         remainingTime = value * 60 * 1000;
@@ -77,11 +76,11 @@ class MyCountDownTimer implements ActionListener {
         timeLabel.setText(String.valueOf(value));
         timeLabel.setBounds(tL_LeftTopX, 0, tl_width, tl_height);
         timeLabel.setFont(new Font("DejaVu", Font.PLAIN, 35));
-        timeLabel.setBorder(BorderFactory.createBevelBorder(1));
+        // timeLabel.setBorder(BorderFactory.createLineBorder());
         timeLabel.setOpaque(true);
         timeLabel.setHorizontalAlignment(JTextField.CENTER);
 
-        continueButton.setBounds((tL_LeftTopX + (tl_width / 4)), tl_height, 100, 30);
+        continueButton.setBounds((tL_LeftTopX + (tl_width / 4)), tl_height + 15, 100, 30);
         continueButton.setFont(new Font("DejaVu", Font.PLAIN, 15));
         continueButton.setFocusable(false);
         continueButton.addActionListener(this);
