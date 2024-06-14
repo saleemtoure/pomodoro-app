@@ -1,70 +1,81 @@
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class PomodoroLogic {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter total session time in minutes:");
-        float totalMinutes = Float.parseFloat(scanner.nextLine());
 
-        int breakLength = 5;
-        int workSessionLength = 25; // Fixed work session length
+    static float totalSessionMinutes;
+    static int breakLength;
+    static int basicSessionLength;
+    static int numOfWorkSessions;
+    static int numOfBreaks;
+    int usedMinutes;
+    int minutesLeft;
+    int additionalMinutesPerSession;
+    int remainingMinutes;
+    static int totalWorkTime;
+    static int totalBreakTime;
+    static ArrayList<Object> sessionSequence;
+    static ArrayList<Integer> sessionLengths;
 
-        ArrayList<Object> sessionSequence = new ArrayList<>();
-        ArrayList<Integer> sessionLengths = new ArrayList<>();
+    static void calculateSessions(int totalSessionMinutes) {
 
-        // Calculate number of full work sessions and breaks
-        int numWorkSessions = (int) Math.floor(totalMinutes / (workSessionLength + breakLength));
-        int numBreaks = numWorkSessions; // Initially set to the number of work sessions
+        // !!!!LOGIC NEEDS TO BE IMPROVED HERE.
 
-        // Ensure the last session is a work session by reducing the number of breaks
-        if (numWorkSessions > 1) {
-            numBreaks--;
+        PomodoroLogic.totalSessionMinutes = Float.valueOf(totalSessionMinutes);
+        breakLength = 5;
+
+        // Kun for å ha oversikt og for debugging
+        sessionSequence = new ArrayList<>();
+        sessionLengths = new ArrayList<>();
+
+        int maxPossibleWorkSessions = (int) Math.floor(totalSessionMinutes / (25 + breakLength));
+
+        numOfWorkSessions = maxPossibleWorkSessions;
+        numOfBreaks = numOfWorkSessions - 1;
+
+        totalBreakTime = numOfBreaks * breakLength;
+
+        int availableWorkTime = totalSessionMinutes - totalBreakTime;
+
+        int basicSessionLength = availableWorkTime / numOfWorkSessions;
+
+        if (basicSessionLength < 20) {
+            basicSessionLength = 20;
+        } else if (basicSessionLength > 25) {
+            basicSessionLength = 25;
         }
 
-        // Calculate total time for full work sessions and breaks
-        int usedMinutes = numWorkSessions * workSessionLength + numBreaks * breakLength;
-        int leftoverMinutes = (int) totalMinutes - usedMinutes;
+        int usedWorkTime = basicSessionLength * numOfWorkSessions;
 
-        // Distribute leftover minutes to work sessions
-        int additionalMinutesPerSession = leftoverMinutes / numWorkSessions;
-        int remainingMinutes = leftoverMinutes % numWorkSessions;
+        int remainingMinutes = availableWorkTime - usedWorkTime;
 
-        for (int i = 0; i < numWorkSessions; i++) {
-            int sessionTime = workSessionLength + additionalMinutesPerSession;
-            if (remainingMinutes > 0) {
+        for (int i = 0; i < numOfWorkSessions; i++) {
+            int sessionTime = basicSessionLength;
+            if (remainingMinutes > 0 && sessionTime < 25) {
                 sessionTime++;
                 remainingMinutes--;
             }
             sessionLengths.add(sessionTime);
-        }
-
-        // Build session sequence
-        for (int i = 0; i < numWorkSessions; i++) {
             sessionSequence.add((Object) new Work());
-            if (i < numBreaks) {
+            if (i < numOfBreaks) {
                 sessionSequence.add((Object) new Break());
+                sessionLengths.add(breakLength);
             }
         }
 
-        // Output results
-        int totalWorkTime = sessionLengths.stream().mapToInt(Integer::intValue).sum();
-        int totalBreakTime = numBreaks * breakLength;
+        totalWorkTime = sessionLengths.stream().filter(length -> length != breakLength).mapToInt(Integer::intValue).sum();
+        totalBreakTime = numOfBreaks * breakLength;
 
-        System.out.println("Number of work sessions: " + numWorkSessions);
+        System.out.println("Number of work sessions: " + numOfWorkSessions);
         System.out.println("Total time spent on work: " + totalWorkTime + " minutes");
-        System.out.println("Number of breaks: " + numBreaks);
+        System.out.println("Number of breaks: " + numOfBreaks);
         System.out.println("Total time spent on breaks: " + totalBreakTime + " minutes");
+        System.out.println(totalWorkTime + totalBreakTime == totalSessionMinutes - breakLength * 1);
 
-        // Output session sequence
         System.out.println("\nSession sequence:");
         System.out.println(sessionSequence);
 
-        // Output session lengths
         System.out.println("\nSession lengths:");
         System.out.println(sessionLengths);
-
-        scanner.close();
     }
+
 }

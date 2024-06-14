@@ -11,7 +11,7 @@ class MyCountDownTimer implements ActionListener {
     JLabel timeLabel = new JLabel();
     JLabel spinnerText = new JLabel("min");
     JButton[] allButtons = new JButton[] { continueButton };
-    SpinnerModel model = new SpinnerNumberModel(20, 20, null, 5);
+    SpinnerModel model = new SpinnerNumberModel(60, 60, null, 5);
     JSpinner spinner = new JSpinner(model);
     JButton spinnerButton = new JButton("Start");
 
@@ -112,6 +112,7 @@ class MyCountDownTimer implements ActionListener {
             clockPanel.remove(spinner);
             clockPanel.revalidate();
             clockPanel.repaint();
+            PomodoroLogic.calculateSessions(value);
             addClock(value);
         }
         if (e.getSource() == continueButton) {

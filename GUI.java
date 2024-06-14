@@ -4,8 +4,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class GUI {
-    // !NESTE STEG BLIR Å SKILLE UT LOGIKK TIL MVC OG RYDDE OPP I LINJER OG
-    // INITALIZATIONS
 
     MyCountDownTimer clock = new MyCountDownTimer();
 
@@ -44,11 +42,6 @@ public class GUI {
             i++;
         }
 
-    }
-
-    public static void main(String[] args) {
-        GUI view = new GUI();
-        view.drawGUI();
     }
 
     public void drawGUI() {
