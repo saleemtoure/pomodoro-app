@@ -16,16 +16,12 @@ public class PomodoroLogic {
     static ArrayList<Object> sessionSequence;
     static ArrayList<Integer> sessionLengths;
 
-    static void calculateSessions(int totalSessionMinutes) {
+    static ArrayList<Object> calculateSessions(int totalSessionMinutes) {
 
         // !!!!LOGIC NEEDS TO BE IMPROVED HERE.
 
         PomodoroLogic.totalSessionMinutes = Float.valueOf(totalSessionMinutes);
         breakLength = 5;
-
-        // Kun for å ha oversikt og for debugging
-        sessionSequence = new ArrayList<>();
-        sessionLengths = new ArrayList<>();
 
         int maxPossibleWorkSessions = (int) Math.floor(totalSessionMinutes / (25 + breakLength));
 
@@ -48,6 +44,9 @@ public class PomodoroLogic {
 
         int remainingMinutes = availableWorkTime - usedWorkTime;
 
+        // Kun for å ha oversikt og for debugging
+        sessionSequence = new ArrayList<>();
+        sessionLengths = new ArrayList<>();
         for (int i = 0; i < numOfWorkSessions; i++) {
             int sessionTime = basicSessionLength;
             if (remainingMinutes > 0 && sessionTime < 25) {
@@ -55,14 +54,18 @@ public class PomodoroLogic {
                 remainingMinutes--;
             }
             sessionLengths.add(sessionTime);
-            sessionSequence.add((Object) new Work());
+            sessionSequence.add(new Work(sessionTime));
             if (i < numOfBreaks) {
-                sessionSequence.add((Object) new Break());
                 sessionLengths.add(breakLength);
+                sessionSequence.add(new Break(breakLength));
             }
         }
 
-        totalWorkTime = sessionLengths.stream().filter(length -> length != breakLength).mapToInt(Integer::intValue).sum();
+        for (int length : sessionLengths) {
+            if (length != breakLength) {
+                totalWorkTime += length;
+            }
+        }
         totalBreakTime = numOfBreaks * breakLength;
 
         System.out.println("Number of work sessions: " + numOfWorkSessions);
@@ -76,6 +79,8 @@ public class PomodoroLogic {
 
         System.out.println("\nSession lengths:");
         System.out.println(sessionLengths);
+
+        return sessionSequence;
     }
 
 }

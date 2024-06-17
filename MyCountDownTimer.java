@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
-
+import java.util.ArrayList;
 import javax.swing.*;
 
 class MyCountDownTimer implements ActionListener {
@@ -14,6 +14,7 @@ class MyCountDownTimer implements ActionListener {
     SpinnerModel model = new SpinnerNumberModel(60, 60, null, 5);
     JSpinner spinner = new JSpinner(model);
     JButton spinnerButton = new JButton("Start");
+    ArrayList<Object> sessions;
 
     int remainingTime;
     int startTime;
@@ -24,7 +25,8 @@ class MyCountDownTimer implements ActionListener {
         timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (remainingTime > 0) {
-                    remainingTime -= 1000;
+                    // remainingTime -= 1000;
+                    remainingTime -= 100000;
                     updateLabel();
                 } else {
                     timer.stop();
@@ -71,12 +73,8 @@ class MyCountDownTimer implements ActionListener {
         int tL_LeftTopX = 20;
         int tl_width = 200;
         int tl_height = 50;
-        remainingTime = value * 60 * 1000;
-        updateLabel();
-        timeLabel.setText(String.valueOf(value));
         timeLabel.setBounds(tL_LeftTopX, 0, tl_width, tl_height);
         timeLabel.setFont(new Font("DejaVu", Font.PLAIN, 35));
-        // timeLabel.setBorder(BorderFactory.createLineBorder());
         timeLabel.setOpaque(true);
         timeLabel.setHorizontalAlignment(JTextField.CENTER);
 
@@ -97,6 +95,27 @@ class MyCountDownTimer implements ActionListener {
         updateLabel();
     }
 
+    void implementPomodoro(int value) {
+        sessions = PomodoroLogic.calculateSessions(value);
+
+        Work workSession;
+        Break breakSession;
+
+        // ! TODO FIKS LØKKA
+
+        for (Object session : sessions) {
+            if (session instanceof Work) {
+                workSession = (Work) session;
+                remainingTime = workSession.sessionLength * 60 * 1000;
+                updateLabel();
+            } else {
+                breakSession = (Break) session;
+                remainingTime = breakSession.sessionLength * 60 * 1000;
+                updateLabel();
+            }
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == spinnerButton) {
@@ -112,7 +131,7 @@ class MyCountDownTimer implements ActionListener {
             clockPanel.remove(spinner);
             clockPanel.revalidate();
             clockPanel.repaint();
-            PomodoroLogic.calculateSessions(value);
+            implementPomodoro(value);
             addClock(value);
         }
         if (e.getSource() == continueButton) {
