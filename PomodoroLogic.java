@@ -13,10 +13,10 @@ public class PomodoroLogic {
     int remainingMinutes;
     static int totalWorkTime;
     static int totalBreakTime;
-    static ArrayList<Object> sessionSequence;
+    static ArrayList<Session> sessionSequence;
     static ArrayList<Integer> sessionLengths;
 
-    static ArrayList<Object> calculateSessions(int totalSessionMinutes) {
+    static ArrayList<Session> calculateSessions(int totalSessionMinutes) {
 
         // !!!!LOGIC NEEDS TO BE IMPROVED HERE.
 

@@ -1,12 +1,5 @@
-class Work {
-    int sessionLength;
-
+class Work extends Session {
     Work(int sessionTime) {
-        sessionLength = sessionTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Work";
+        super(sessionTime, "Work");
     }
 }

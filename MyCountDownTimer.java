@@ -9,29 +9,32 @@ class MyCountDownTimer implements ActionListener {
     JPanel clockPanel = new JPanel();
     JButton continueButton = new JButton("Start");
     JLabel timeLabel = new JLabel();
-    JLabel spinnerText = new JLabel("min");
     JButton[] allButtons = new JButton[] { continueButton };
+    JLabel spinnerText = new JLabel("min");
     SpinnerModel model = new SpinnerNumberModel(60, 60, null, 5);
     JSpinner spinner = new JSpinner(model);
     JButton spinnerButton = new JButton("Start");
-    ArrayList<Object> sessions;
+    ArrayList<Session> sessions;
 
+    int currentSessionIndex;
     int remainingTime;
     int startTime;
     Timer timer;
     boolean started = false;
 
+    JLabel sessionLabel = new JLabel();
+
     void startTimer() {
+
         timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (remainingTime > 0) {
                     // remainingTime -= 1000;
-                    remainingTime -= 100000;
+                    remainingTime -= 240000;
                     updateLabel();
                 } else {
                     timer.stop();
-                    timeLabel.setText("Denne oekten er ferdig!");
-                    Toolkit.getDefaultToolkit().beep();
+                    nextSession();
                 }
             }
         });
@@ -39,14 +42,18 @@ class MyCountDownTimer implements ActionListener {
     }
 
     void updateLabel() {
-        int minutesPassed = (remainingTime / 60000) % 60;
-        int secondsPassed = (remainingTime / 1000) % 60;
 
-        if (remainingTime < 60000) { // If less than a minute remains
-            timeLabel.setText(String.format("%02d:%02d", 0, secondsPassed));
-        } else {
-            timeLabel.setText(String.format("%02d:%02d", minutesPassed, secondsPassed));
-        }
+        int minutesRemaining = (remainingTime / 60000) % 60;
+        int secondsRemaining = (remainingTime / 1000) % 60;
+
+        timeLabel.setText(String.format("%02d:%02d", minutesRemaining, secondsRemaining));
+
+        // TODO stygt
+        sessionLabel.setText(
+                "<html> <br> Oekt " + (currentSessionIndex + 1) + " av " + sessions.size() + "<br> ("
+                        + sessions.get(currentSessionIndex).getSessionLength()
+                        + " minutter) </html>");
+
     }
 
     MyCountDownTimer() {
@@ -54,7 +61,6 @@ class MyCountDownTimer implements ActionListener {
         clockPanel.add(spinner);
         clockPanel.add(spinnerText);
         spinner.setFont(new Font("DejaVu", Font.PLAIN, 15));
-        spinner.setMaximumSize(new Dimension(50, 50));
         clockPanel.add(spinnerButton);
         spinnerButton.addActionListener(this);
 
@@ -83,37 +89,89 @@ class MyCountDownTimer implements ActionListener {
         continueButton.setFocusable(false);
         continueButton.addActionListener(this);
 
+        sessionLabel.setBounds(tL_LeftTopX, 80, tl_width, tl_height);
+        sessionLabel.setFont(new Font("DejaVu", Font.PLAIN, 10));
+        sessionLabel.setOpaque(false);
+        sessionLabel.setHorizontalAlignment(JTextField.CENTER);
+
         clockPanel.setLayout(null);
         clockPanel.setPreferredSize(new Dimension(300, 80));
+        clockPanel.add(sessionLabel);
         clockPanel.add(timeLabel);
         clockPanel.add(continueButton);
 
     }
 
-    void done() {
-        timer.stop();
-        updateLabel();
-    }
-
     void implementPomodoro(int value) {
         sessions = PomodoroLogic.calculateSessions(value);
 
-        Work workSession;
-        Break breakSession;
+        // TODO Legg til en ikon oversikt av økter istedet for tekst
+        // String s = "";
+        // for (Session session : sessions) {
+        // if (session instanceof Work) {
+        // if (s == "") {
+        // s += " ";
+        // }
+        // s += " " + ((Work) session).getSessionLength();
+        // } else {
+        // s += " " + ((Break) session).getSessionLength();
+        // }
+        // }
+        // sessionLabel.setText(s);
+        // sessionLabel.setForeground(new Color(124, 180, 248));
 
-        // ! TODO FIKS LØKKA
+        currentSessionIndex = 0;
 
-        for (Object session : sessions) {
+        if (!sessions.isEmpty()) {
+            Session session = sessions.get(currentSessionIndex);
             if (session instanceof Work) {
-                workSession = (Work) session;
-                remainingTime = workSession.sessionLength * 60 * 1000;
-                updateLabel();
-            } else {
-                breakSession = (Break) session;
-                remainingTime = breakSession.sessionLength * 60 * 1000;
-                updateLabel();
+                remainingTime = ((Work) session).sessionLength * 60 * 1000;
+            } else if (session instanceof Break) {
+                remainingTime = ((Break) session).sessionLength * 60 * 1000;
             }
+            updateLabel();
         }
+    }
+
+    void nextSession() {
+        currentSessionIndex++;
+        if (currentSessionIndex < sessions.size()) {
+            Session session = sessions.get(currentSessionIndex);
+            if (session instanceof Work) {
+                remainingTime = ((Work) session).sessionLength * 60 * 1000;
+            } else if (session instanceof Break) {
+                remainingTime = ((Break) session).sessionLength * 60 * 1000;
+            }
+            updateLabel();
+            startTimer();
+            beeps(1);
+        } else {
+            timeLabel.setText("All Sessions Complete!");
+            timeLabel.setFont(new Font("DejaVu", Font.PLAIN, 15));
+            sessionLabel.setText(
+                    "<html><br> Fullfoert " + currentSessionIndex + " av " + sessions.size() + " oekter <br>" + " Arbeidet totalt "
+                            + PomodoroLogic.totalWorkTime + " minutter</html>");
+            continueButton.setText("DONE!");
+            continueButton.setEnabled(false);
+            beeps(3);
+        }
+    }
+
+    void beeps(int numOfBeeps) {
+        // For å unngå at hovedtråden blir blokkert og ser fryst ut når lydene spilles
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < numOfBeeps; i++) {
+                    Toolkit.getDefaultToolkit().beep();
+                    try {
+                        Thread.sleep(1300);
+                    } catch (InterruptedException e) {
+                        System.out.print(e);
+                    }
+                }
+            }
+        }).start();
     }
 
     @Override

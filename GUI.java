@@ -108,6 +108,8 @@ public class GUI {
         colorSchemeButton.setBackground(secondaryLight);
         colorSchemeButton.setForeground(secondaryDark);
 
+        clock.sessionLabel.setForeground(secondaryDark);
+
         isLight = true;
     }
 
@@ -126,6 +128,8 @@ public class GUI {
         clock.timeLabel.setBackground(primaryDark);
         clock.timeLabel.setForeground(secondaryLight);
         clock.timeLabel.setBorder(BorderFactory.createLineBorder(primaryLight));
+
+        clock.sessionLabel.setForeground(secondaryLight);
 
         isLight = false;
     }
