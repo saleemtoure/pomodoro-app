@@ -18,7 +18,7 @@ public class PomodoroLogic {
 
     static ArrayList<Session> calculateSessions(int totalSessionMinutes) {
 
-        // !!!!LOGIC NEEDS TO BE IMPROVED HERE.
+        // !!!!LOGIKKEN HER MÅ FORBEDRED MYE
 
         PomodoroLogic.totalSessionMinutes = Float.valueOf(totalSessionMinutes);
         breakLength = 5;
