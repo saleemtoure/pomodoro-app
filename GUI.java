@@ -38,7 +38,6 @@ public class GUI {
         int i = 0;
         for (JButton btn : clock.allButtons) {
             buttonList[i] = btn;
-            System.out.print(btn);
             i++;
         }
 
