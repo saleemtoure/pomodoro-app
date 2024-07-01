@@ -39,6 +39,7 @@ public class GUI {
         for (JButton btn : clock.allButtons) {
             buttonList[i] = btn;
             i++;
+            // Test
         }
 
     }
