@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import com.formdev.flatlaf.FlatLaf;
+
 public class GUI {
 
     MyCountDownTimer clock = new MyCountDownTimer();
@@ -41,17 +43,19 @@ public class GUI {
         for (JButton btn : clock.allButtons) {
             buttonList[i] = btn;
             i++;
-            // Test
         }
 
     }
 
     public void drawGUI() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        } catch (Exception e) {
-            System.exit(1);
-        }
+        // try {
+        // UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        // } catch (Exception e) {
+        // System.exit(1);
+        // }
+
+        FlatLaf.setup(null);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.getContentPane().add(mainPanel);
@@ -110,6 +114,7 @@ public class GUI {
         colorSchemeButton.setBackground(secondaryLight);
         colorSchemeButton.setForeground(secondaryDark);
 
+        clock.spinnerText.setForeground(secondaryDark);
         clock.sessionLabel.setForeground(secondaryDark);
 
         isLight = true;
@@ -131,6 +136,7 @@ public class GUI {
         clock.timeLabel.setForeground(secondaryLight);
         clock.timeLabel.setBorder(BorderFactory.createLineBorder(primaryLight));
 
+        clock.spinnerText.setForeground(secondaryLight);
         clock.sessionLabel.setForeground(secondaryLight);
 
         isLight = false;
