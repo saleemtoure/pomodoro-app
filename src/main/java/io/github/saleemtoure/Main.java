@@ -6,6 +6,5 @@ public class Main {
         // TODO FORBEDRE TIDSFORDELING LOGIKKEN v2.1
         GUI gui = new GUI();
         gui.drawGUI();
-        //Test
-    }
+    } 
 }
