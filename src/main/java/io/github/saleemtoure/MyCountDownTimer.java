@@ -30,8 +30,8 @@ class MyCountDownTimer implements ActionListener {
         timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (remainingTime > 0) {
-                    // remainingTime -= 1000;
-                    remainingTime -= 240000;
+                    remainingTime -= 1000;
+                    // remainingTime -= 240000; For testing
                     updateLabel();
                 } else {
                     timer.stop();
