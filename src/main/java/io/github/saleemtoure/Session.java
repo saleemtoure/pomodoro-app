@@ -1,12 +1,15 @@
 package io.github.saleemtoure;
+
 abstract class Session {
     int sessionLength;
     String sessionType;
+    String sessionIcon;
     Boolean completed;
 
-    Session(int sessionTime, String sessionType) {
+    Session(int sessionTime, String sessionType, String sessionIcon) {
         sessionLength = sessionTime;
         this.sessionType = sessionType;
+        this.sessionIcon = sessionIcon;
         completed = false;
     }
 
@@ -15,11 +18,19 @@ abstract class Session {
         return sessionType;
     }
 
+    String getSessionIcon() {
+        return sessionIcon;
+    }
+
     int getSessionLength() {
         return sessionLength;
     }
 
     Boolean completed() {
         return completed;
+    }
+
+    void setComplete(Boolean completed) {
+        this.completed = completed;
     }
 }

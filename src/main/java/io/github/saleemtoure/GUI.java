@@ -4,26 +4,19 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.*;
 
 public class GUI {
 
     MyCountDownTimer clock = new MyCountDownTimer();
 
-    JFrame frame = new JFrame("Pomodoro");
+    JFrame frame = new JFrame("Pomodoro App");
 
     JPanel mainPanel = new JPanel(), upperPanel = new JPanel(), textPanel = new JPanel(), clockPanel;
 
     JButton colorSchemeButton = new JButton("\u263E");
     JTextField textField = new JTextField();
-
-    JButton[] buttonList;
-    Color primaryDark = new Color(30, 30, 30);
-    Color secondaryDark = new Color(55, 55, 61);
-    Color primaryLight = new Color(250, 250, 250);
-    Color secondaryLight = new Color(204, 204, 204);
-
-    Boolean isLight = false;
+    Boolean isLight = true;
 
     GUI() {
 
@@ -34,32 +27,13 @@ public class GUI {
 
         colorSchemeButton.setFont(new Font("DejaVu", Font.PLAIN, 15));
         colorSchemeButton.setFocusable(false);
-
-        int buttonAmount = clock.allButtons.length;
-
-        buttonList = new JButton[buttonAmount];
-
-        int i = 0;
-        for (JButton btn : clock.allButtons) {
-            buttonList[i] = btn;
-            i++;
-        }
-
     }
 
     public void drawGUI() {
-        // try {
-        // UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-        // } catch (Exception e) {
-        // System.exit(1);
-        // }
-
-        FlatLaf.setup(null);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.getContentPane().add(mainPanel);
-        lightMode();
 
         // * Dark and Lightmode */
 
@@ -76,8 +50,6 @@ public class GUI {
         colorSchemeButton.addActionListener(new switchColorScheme());
 
         // * */
-
-        upperPanel.setOpaque(false);
 
         clockPanel = clock.getPanel();
 
@@ -98,48 +70,30 @@ public class GUI {
     }
 
     void lightMode() {
-        mainPanel.setBackground(primaryLight);
-
-        for (JButton btn : buttonList) {
-            btn.setBackground(secondaryLight);
-            btn.setForeground(secondaryDark);
+        try {
+            UIManager.setLookAndFeel(new FlatLightLaf());
+            colorSchemeButton.setText("\u263E");
+            isLight = true;
+            SwingUtilities.updateComponentTreeUI(frame);
+            frame.pack();
+        } catch (Exception e) {
+            System.err.println("Failed to initialize LaF");
+            System.exit(1);
         }
-
-        clock.clockPanel.setBackground(primaryLight);
-        clock.timeLabel.setBackground(primaryLight);
-        clock.timeLabel.setForeground(secondaryDark);
-        clock.timeLabel.setBorder(BorderFactory.createLineBorder(primaryDark));
-
-        colorSchemeButton.setText("\u263E");
-        colorSchemeButton.setBackground(secondaryLight);
-        colorSchemeButton.setForeground(secondaryDark);
-
-        clock.spinnerText.setForeground(secondaryDark);
-        clock.sessionLabel.setForeground(secondaryDark);
-
-        isLight = true;
     }
 
     void darkMode() {
-        mainPanel.setBackground(primaryDark);
-        for (JButton btn : buttonList) {
-            btn.setBackground(secondaryDark);
-            btn.setForeground(secondaryLight);
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+            SwingUtilities.updateComponentTreeUI(frame);
+            colorSchemeButton.setText("\u263C");
+            isLight = false;
+            frame.pack();
+        } catch (Exception e) {
+            System.err.println("Failed to initialize LaF");
+            System.exit(1);
         }
 
-        colorSchemeButton.setText("\u263C");
-        colorSchemeButton.setBackground(secondaryDark);
-        colorSchemeButton.setForeground(secondaryLight);
-
-        clock.clockPanel.setBackground(primaryDark);
-        clock.timeLabel.setBackground(primaryDark);
-        clock.timeLabel.setForeground(secondaryLight);
-        clock.timeLabel.setBorder(BorderFactory.createLineBorder(primaryLight));
-
-        clock.spinnerText.setForeground(secondaryLight);
-        clock.sessionLabel.setForeground(secondaryLight);
-
-        isLight = false;
     }
 
 }

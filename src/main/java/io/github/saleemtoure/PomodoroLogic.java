@@ -20,7 +20,7 @@ public class PomodoroLogic {
 
     static ArrayList<Session> calculateSessions(int totalSessionMinutes) {
 
-        // !!!!LOGIKKEN HER MÅ FORBEDRED MYE
+        // !!!!LOGIKKEN HER MÅ FORBEDRES MYE
 
         PomodoroLogic.totalSessionMinutes = Float.valueOf(totalSessionMinutes);
         breakLength = 5;
