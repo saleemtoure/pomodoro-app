@@ -30,7 +30,7 @@ abstract class Session {
         return completed;
     }
 
-    void setComplete(Boolean completed) {
-        this.completed = completed;
+    void setComplete() {
+        this.completed = true;
     }
 }

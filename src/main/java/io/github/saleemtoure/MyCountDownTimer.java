@@ -2,32 +2,30 @@ package io.github.saleemtoure;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.*;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
-class MyCountDownTimer implements ActionListener {
+class MyCountDownTimer {
 
-    JPanel clockPanel = new JPanel();
-    JPanel sessionsPanel = new JPanel();
-    JButton continueButton = new JButton();
-    JLabel timeLabel = new JLabel();
-    JLabel spinnerText = new JLabel();
-    SpinnerModel model = new SpinnerNumberModel(60, 60, null, 5);
-    JSpinner spinner = new JSpinner();
-    JButton spinnerButton = new JButton();
+    // JPanel clockPanel = new JPanel();
+    // JPanel sessionsPanel = new JPanel();
+    // JButton continueButton = new JButton();
+    // JLabel timeLabel = new JLabel();
+    // JLabel spinnerText = new JLabel();
+    // SpinnerModel model = new SpinnerNumberModel(60, 60, null, 5);
+    // JSpinner spinner = new JSpinner();
+    // JButton spinnerButton = new JButton();
 
-    ArrayList<JLabel> sessionsPanelLabelList = new ArrayList<>();
+    // ArrayList<JLabel> sessionsPanelLabelList = new ArrayList<>();
     ArrayList<Session> sessions;
-    Font defaultFontLarge = new Font("DejaVu", Font.PLAIN, 35);
-    Font defaultFontMedium = new Font("DejaVu", Font.PLAIN, 15);
-    Font defaultFontSmall = new Font("DejaVu", Font.PLAIN, 10);
+    // Font defaultFontLarge = new Font("DejaVu", Font.PLAIN, 35);
+    // Font defaultFontMedium = new Font("DejaVu", Font.PLAIN, 15);
+    // Font defaultFontSmall = new Font("DejaVu", Font.PLAIN, 10);
 
     int currentSessionIndex;
     int remainingTime;
-    int startTime;
     Timer timer;
     boolean started = false;
 
@@ -40,18 +38,18 @@ class MyCountDownTimer implements ActionListener {
             System.exit(1);
         }
 
-        continueButton = new JButton("Start");
-        spinner = new JSpinner(model);
-        spinnerText = new JLabel("min");
-        spinnerButton = new JButton("Start");
+        // continueButton = new JButton("Start");
+        // spinner = new JSpinner(model);
+        // spinnerText = new JLabel("min");
+        // spinnerButton = new JButton("Start");
 
-        clockPanel.add(spinner);
-        clockPanel.add(spinnerText);
-        spinnerText.setFont(defaultFontMedium);
-        spinner.setFont(defaultFontMedium);
-        spinnerButton.setFont(defaultFontMedium);
-        clockPanel.add(spinnerButton);
-        spinnerButton.addActionListener(this);
+        // clockPanel.add(spinner);
+        // clockPanel.add(spinnerText);
+        // spinnerText.setFont(defaultFontMedium);
+        // spinner.setFont(defaultFontMedium);
+        // spinnerButton.setFont(defaultFontMedium);
+        // clockPanel.add(spinnerButton);
+        // spinnerButton.addActionListener(this);
 
     }
 
@@ -62,7 +60,7 @@ class MyCountDownTimer implements ActionListener {
                 if (remainingTime > 0) {
                     remainingTime -= 1000;
                     // remainingTime -= 240000; For testing
-                    updateLabel();
+                    GUI.updateLabel();
                 } else {
                     timer.stop();
                     nextSession();
@@ -72,59 +70,52 @@ class MyCountDownTimer implements ActionListener {
         timer.start();
     }
 
-    void updateLabel() {
+    // void updateLabel() {
 
-        int minutesRemaining = (remainingTime / 60000) % 60;
-        int secondsRemaining = (remainingTime / 1000) % 60;
+    // int minutesRemaining = (remainingTime / 60000) % 60;
+    // int secondsRemaining = (remainingTime / 1000) % 60;
 
-        timeLabel.setText(String.format("%02d:%02d", minutesRemaining, secondsRemaining));
+    // timeLabel.setText(String.format("%02d:%02d", minutesRemaining,
+    // secondsRemaining));
 
-    }
+    // }
 
-    JPanel getPanel() {
-        return clockPanel;
-    }
+    // JPanel getPanel() {
+    // return clockPanel;
+    // }
 
     void stop() {
         timer.stop();
     }
 
-    void addClock(int value) {
+    // void addClock(int value) {
 
-        int tL_LeftTopX = 20;
-        int tl_width = 200;
-        int tl_height = 50;
-        timeLabel.setBounds(tL_LeftTopX, 0, tl_width, tl_height);
-        timeLabel.setFont(defaultFontLarge);
-        timeLabel.setHorizontalAlignment(JTextField.CENTER);
+    // int tL_LeftTopX = 20;
+    // int tl_width = 200;
+    // int tl_height = 50;
+    // timeLabel.setBounds(tL_LeftTopX, 0, tl_width, tl_height);
+    // timeLabel.setFont(defaultFontLarge);
+    // timeLabel.setHorizontalAlignment(JTextField.CENTER);
 
-        continueButton.setBounds((tL_LeftTopX + (tl_width / 4)), tl_height + 15, 100, 30);
-        continueButton.setFont(defaultFontMedium);
-        continueButton.setFocusable(false);
-        continueButton.addActionListener(this);
+    // continueButton.setBounds((tL_LeftTopX + (tl_width / 4)), tl_height + 15, 100,
+    // 30);
+    // continueButton.setFont(defaultFontMedium);
+    // continueButton.setFocusable(false);
+    // continueButton.addActionListener(this);
 
-        sessionsPanel.setBounds(tL_LeftTopX, 100, tl_width, tl_height);
-        sessionsPanel.setFont(defaultFontSmall);
+    // sessionsPanel.setBounds(tL_LeftTopX, 100, tl_width, tl_height);
+    // sessionsPanel.setFont(defaultFontSmall);
 
-        clockPanel.setLayout(null);
-        clockPanel.setPreferredSize(new Dimension(300, 150));
-        clockPanel.add(sessionsPanel);
-        clockPanel.add(timeLabel);
-        clockPanel.add(continueButton);
+    // clockPanel.setLayout(null);
+    // clockPanel.setPreferredSize(new Dimension(300, 150));
+    // clockPanel.add(sessionsPanel);
+    // clockPanel.add(timeLabel);
+    // clockPanel.add(continueButton);
 
-    }
+    // }
 
     void implementPomodoro(int value) {
         sessions = PomodoroLogic.calculateSessions(value);
-        for (Session s : sessions) {
-            sessionsPanelLabelList.add(new JLabel(s.getSessionIcon()));
-        }
-
-        for (JLabel label : sessionsPanelLabelList) {
-            sessionsPanel.add(label);
-            label.setFont(defaultFontMedium);
-        }
-
         currentSessionIndex = 0;
 
         if (!sessions.isEmpty()) {
@@ -134,14 +125,14 @@ class MyCountDownTimer implements ActionListener {
             } else if (session instanceof Break) {
                 remainingTime = ((Break) session).sessionLength * 60 * 1000;
             }
-            updateLabel();
+            // updateLabel();
         }
     }
 
     void nextSession() {
-        sessions.get(currentSessionIndex).setComplete(true);
+        sessions.get(currentSessionIndex).setComplete();
         if (sessions.get(currentSessionIndex).completed()) {
-            sessionsPanelLabelList.get(currentSessionIndex).setForeground(Color.ORANGE);
+            GUI.sessionsPanelLabelList.get(currentSessionIndex).setForeground(Color.ORANGE);
         }
         currentSessionIndex++;
         if (currentSessionIndex < sessions.size()) {
@@ -151,14 +142,14 @@ class MyCountDownTimer implements ActionListener {
             } else if (session instanceof Break) {
                 remainingTime = ((Break) session).sessionLength * 60 * 1000;
             }
-            updateLabel();
+            GUI.updateLabel();
             startTimer();
             beeps(1);
         } else {
-            timeLabel.setText("All Sessions Complete!");
-            timeLabel.setFont(defaultFontMedium);
-            continueButton.setText("DONE!");
-            continueButton.setEnabled(false);
+            GUI.timeLabel.setText("All Sessions Complete!");
+            GUI.timeLabel.setFont(GUI.defaultFontMedium);
+            GUI.continueButton.setText("DONE!");
+            GUI.continueButton.setEnabled(false);
             beeps(3);
         }
     }
@@ -180,36 +171,35 @@ class MyCountDownTimer implements ActionListener {
         }).start();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == spinnerButton) {
-            try {
-                spinner.commitEdit();
-            } catch (ParseException e1) {
-                e1.printStackTrace();
-            }
-            int value = (Integer) spinner.getValue();
-            startTime = value;
-            clockPanel.remove(spinnerButton);
-            clockPanel.remove(spinnerText);
-            clockPanel.remove(spinner);
-            clockPanel.revalidate();
-            clockPanel.repaint();
-            implementPomodoro(value);
-            addClock(value);
-        }
-        if (e.getSource() == continueButton) {
-            if (!started) {
-                started = true;
-                continueButton.setText("Pause");
-                startTimer();
+    // @Override
+    // public void actionPerformed(ActionEvent e) {
+    // if (e.getSource() == spinnerButton) {
+    // try {
+    // spinner.commitEdit();
+    // } catch (ParseException e1) {
+    // e1.printStackTrace();
+    // }
+    // int value = (Integer) spinner.getValue();
+    // clockPanel.remove(spinnerButton);
+    // clockPanel.remove(spinnerText);
+    // clockPanel.remove(spinner);
+    // clockPanel.revalidate();
+    // clockPanel.repaint();
+    // implementPomodoro(value);
+    // addClock(value);
+    // }
+    // if (e.getSource() == continueButton) {
+    // if (!started) {
+    // started = true;
+    // continueButton.setText("Pause");
+    // startTimer();
 
-            } else {
-                started = false;
-                continueButton.setText("Fortsett");
-                stop();
-            }
-        }
+    // } else {
+    // started = false;
+    // continueButton.setText("Fortsett");
+    // stop();
+    // }
+    // }
 
-    }
+    // }
 }
