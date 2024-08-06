@@ -5,51 +5,15 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import com.formdev.flatlaf.FlatLightLaf;
-
 class MyCountDownTimer {
 
-    // JPanel clockPanel = new JPanel();
-    // JPanel sessionsPanel = new JPanel();
-    // JButton continueButton = new JButton();
-    // JLabel timeLabel = new JLabel();
-    // JLabel spinnerText = new JLabel();
-    // SpinnerModel model = new SpinnerNumberModel(60, 60, null, 5);
-    // JSpinner spinner = new JSpinner();
-    // JButton spinnerButton = new JButton();
-
-    // ArrayList<JLabel> sessionsPanelLabelList = new ArrayList<>();
     ArrayList<Session> sessions;
-    // Font defaultFontLarge = new Font("DejaVu", Font.PLAIN, 35);
-    // Font defaultFontMedium = new Font("DejaVu", Font.PLAIN, 15);
-    // Font defaultFontSmall = new Font("DejaVu", Font.PLAIN, 10);
-
     int currentSessionIndex;
     int remainingTime;
     Timer timer;
     boolean started = false;
 
     MyCountDownTimer() {
-
-        try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (Exception e) {
-            System.err.println("Failed to initialize LaF");
-            System.exit(1);
-        }
-
-        // continueButton = new JButton("Start");
-        // spinner = new JSpinner(model);
-        // spinnerText = new JLabel("min");
-        // spinnerButton = new JButton("Start");
-
-        // clockPanel.add(spinner);
-        // clockPanel.add(spinnerText);
-        // spinnerText.setFont(defaultFontMedium);
-        // spinner.setFont(defaultFontMedium);
-        // spinnerButton.setFont(defaultFontMedium);
-        // clockPanel.add(spinnerButton);
-        // spinnerButton.addActionListener(this);
 
     }
 
@@ -59,7 +23,7 @@ class MyCountDownTimer {
             public void actionPerformed(ActionEvent e) {
                 if (remainingTime > 0) {
                     remainingTime -= 1000;
-                    // remainingTime -= 240000; For testing
+                    // remainingTime -= 240000; // For testing
                     GUI.updateLabel();
                 } else {
                     timer.stop();
@@ -70,49 +34,9 @@ class MyCountDownTimer {
         timer.start();
     }
 
-    // void updateLabel() {
-
-    // int minutesRemaining = (remainingTime / 60000) % 60;
-    // int secondsRemaining = (remainingTime / 1000) % 60;
-
-    // timeLabel.setText(String.format("%02d:%02d", minutesRemaining,
-    // secondsRemaining));
-
-    // }
-
-    // JPanel getPanel() {
-    // return clockPanel;
-    // }
-
     void stop() {
         timer.stop();
     }
-
-    // void addClock(int value) {
-
-    // int tL_LeftTopX = 20;
-    // int tl_width = 200;
-    // int tl_height = 50;
-    // timeLabel.setBounds(tL_LeftTopX, 0, tl_width, tl_height);
-    // timeLabel.setFont(defaultFontLarge);
-    // timeLabel.setHorizontalAlignment(JTextField.CENTER);
-
-    // continueButton.setBounds((tL_LeftTopX + (tl_width / 4)), tl_height + 15, 100,
-    // 30);
-    // continueButton.setFont(defaultFontMedium);
-    // continueButton.setFocusable(false);
-    // continueButton.addActionListener(this);
-
-    // sessionsPanel.setBounds(tL_LeftTopX, 100, tl_width, tl_height);
-    // sessionsPanel.setFont(defaultFontSmall);
-
-    // clockPanel.setLayout(null);
-    // clockPanel.setPreferredSize(new Dimension(300, 150));
-    // clockPanel.add(sessionsPanel);
-    // clockPanel.add(timeLabel);
-    // clockPanel.add(continueButton);
-
-    // }
 
     void implementPomodoro(int value) {
         sessions = PomodoroLogic.calculateSessions(value);
@@ -125,7 +49,6 @@ class MyCountDownTimer {
             } else if (session instanceof Break) {
                 remainingTime = ((Break) session).sessionLength * 60 * 1000;
             }
-            // updateLabel();
         }
     }
 

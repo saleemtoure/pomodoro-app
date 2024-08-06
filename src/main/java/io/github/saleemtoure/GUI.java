@@ -48,6 +48,16 @@ public class GUI implements ActionListener {
         colorSchemeButton.setFont(new Font("DejaVu", Font.PLAIN, 15));
         colorSchemeButton.setFocusable(false);
 
+        continueButton = new JButton("Start");
+        spinner = new JSpinner(model);
+        spinnerText = new JLabel("min");
+        spinnerButton = new JButton("Start");
+
+        spinnerText.setFont(defaultFontMedium);
+        spinner.setFont(defaultFontMedium);
+        spinnerButton.setFont(defaultFontMedium);
+        spinnerButton.addActionListener(this);
+
     }
 
     public void drawGUI() {
@@ -57,8 +67,6 @@ public class GUI implements ActionListener {
         frame.getContentPane().add(mainPanel);
 
         // * Dark and Lightmode */
-
-        upperPanel.add(colorSchemeButton);
 
         class switchColorScheme implements ActionListener {
 
@@ -70,24 +78,16 @@ public class GUI implements ActionListener {
         }
         colorSchemeButton.addActionListener(new switchColorScheme());
 
-        // * */
+        // * *//
 
+        upperPanel.add(colorSchemeButton);
         mainPanel.add(upperPanel);
-
-        continueButton = new JButton("Start");
-        spinner = new JSpinner(model);
-        spinnerText = new JLabel("min");
-        spinnerButton = new JButton("Start");
-
         clockPanel.add(spinner);
         clockPanel.add(spinnerText);
-        spinnerText.setFont(defaultFontMedium);
-        spinner.setFont(defaultFontMedium);
-        spinnerButton.setFont(defaultFontMedium);
         clockPanel.add(spinnerButton);
-        spinnerButton.addActionListener(this);
-
         mainPanel.add(clockPanel);
+
+        lightMode();
 
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -116,6 +116,12 @@ public class GUI implements ActionListener {
         clockPanel.add(sessionsPanel);
         clockPanel.add(timeLabel);
         clockPanel.add(continueButton);
+
+        if (isLight) {
+            lightMode();
+        } else {
+            darkMode();
+        }
 
     }
 
