@@ -21,3 +21,4 @@ A simple "Pomodoro" GUI application made in Java. Help's you focus in your study
 
 - java.awt
 - javax.swing
+- com.formdev.flatlaf
