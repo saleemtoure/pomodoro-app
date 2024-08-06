@@ -4,8 +4,6 @@ A simple "Pomodoro" GUI application made in Java. Help's you focus in your study
 
 ##Not Finished, but functional
 - **The time-partitioning logic is not completely perfected yet (will be improved)
-- **Messy code structure (will be improved)
-- **Aesthetically unpleasing (will be improved)
 
 ## Screenshots
 
@@ -13,8 +11,11 @@ A simple "Pomodoro" GUI application made in Java. Help's you focus in your study
 
 ## Features
 
-- Light/dark mode toggle
 - Enter your desired time (for study/work session)
+- Summary and full overview of session (duration, partition etc) ouputted (in console)
+- Dynamically changing icons, that work as a progress bar
+- End of sessions (both the smaller divisions and the complete sessions) are signaled by (system) sounds.
+- Dynamic light/dark mode toggle
 
 ## Modules
 
