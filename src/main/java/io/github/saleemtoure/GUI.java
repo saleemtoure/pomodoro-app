@@ -16,8 +16,6 @@ public class GUI implements ActionListener {
     JFrame frame = new JFrame("Pomodoro App");
 
     JPanel mainPanel = new JPanel(), upperPanel = new JPanel(), textPanel = new JPanel();
-    // JPanel mainPanel = new JPanel(), upperPanel = new JPanel(), textPanel = new
-    // JPanel(), clockPanel;
 
     JButton colorSchemeButton = new JButton("\u263E");
     JTextField textField = new JTextField();
