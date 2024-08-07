@@ -13,10 +13,6 @@ class MyCountDownTimer {
     Timer timer;
     boolean started = false;
 
-    MyCountDownTimer() {
-
-    }
-
     void startTimer() {
 
         timer = new Timer(1000, new ActionListener() {
@@ -93,36 +89,4 @@ class MyCountDownTimer {
             }
         }).start();
     }
-
-    // @Override
-    // public void actionPerformed(ActionEvent e) {
-    // if (e.getSource() == spinnerButton) {
-    // try {
-    // spinner.commitEdit();
-    // } catch (ParseException e1) {
-    // e1.printStackTrace();
-    // }
-    // int value = (Integer) spinner.getValue();
-    // clockPanel.remove(spinnerButton);
-    // clockPanel.remove(spinnerText);
-    // clockPanel.remove(spinner);
-    // clockPanel.revalidate();
-    // clockPanel.repaint();
-    // implementPomodoro(value);
-    // addClock(value);
-    // }
-    // if (e.getSource() == continueButton) {
-    // if (!started) {
-    // started = true;
-    // continueButton.setText("Pause");
-    // startTimer();
-
-    // } else {
-    // started = false;
-    // continueButton.setText("Fortsett");
-    // stop();
-    // }
-    // }
-
-    // }
 }

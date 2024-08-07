@@ -69,19 +69,6 @@ public class PomodoroLogic {
             }
         }
         totalBreakTime = numOfBreaks * breakLength;
-
-        System.out.println("Number of work sessions: " + numOfWorkSessions);
-        System.out.println("Total time spent on work: " + totalWorkTime + " minutes");
-        System.out.println("Number of breaks: " + numOfBreaks);
-        System.out.println("Total time spent on breaks: " + totalBreakTime + " minutes");
-        System.out.println(totalWorkTime + totalBreakTime == totalSessionMinutes - breakLength * 1);
-
-        System.out.println("\nSession sequence:");
-        System.out.println(sessionSequence);
-
-        System.out.println("\nSession lengths:");
-        System.out.println(sessionLengths);
-
         return sessionSequence;
     }
 
